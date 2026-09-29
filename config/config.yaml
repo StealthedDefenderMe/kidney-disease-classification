@@ -1,0 +1,12 @@
+artifacts_root : artifacts
+
+data_injection:
+  source_url: "nazmul0087/ct-kidney-dataset-normal-cyst-tumor-and-stone"
+  root_dir: "artifacts/data"
+
+# Why?
+# This file stores configuration, not Python logic.
+# So if tomorrow you change:
+# Kaggle dataset → change source_url
+# destination → change root_dir
+# You don't touch your Python code.

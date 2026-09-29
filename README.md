@@ -17,10 +17,12 @@
 1. Update config.yaml
 2. Update secrets.yaml [Optional]
 3. Update params.yaml
-4. Update the entity
+4. Update the entity (Nothing but return type of any function)
 5. Update the configuration manager in src config
 6. Update the components (Contains data injection, model preparation & evaluation)
 7. Update the pipeline (Training as well as prediction pipeline)
 8. Update the main.py
 9. Update the dvc.yaml (this is gonna track your entire pipeline)
 10. app.py (Updating at very last)
+
+## Here we're starting with our first component which is data injection. Here we'll inject the data
