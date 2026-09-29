@@ -1,0 +1,16 @@
+tensorflow==2.13.1
+pandas
+dvc
+mlflow==2.2.2
+notebook
+numpy
+matplotlib
+seaborn
+python-box==6.0.2
+pyYAML # To read yaml files & load it in my code
+tqdm
+ensure==1.0.2
+joblib
+types-PyYAML
+scipy
+-e . # I want to install the current directory as a package, so I can import it in my code

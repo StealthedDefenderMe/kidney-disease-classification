@@ -1,0 +1,34 @@
+Metadata-Version: 2.4
+Name: kidney-disease-classification
+Version: 0.1.0
+Summary: A simple kidney disease classification project
+Home-page: https://github.com/StealthedDefenderMe/kidney-disease-classification.git
+Author: Prathamesh Bidkar
+Author-email: prathameshb2299@gmail.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: requires-python
+Dynamic: summary
+
+# kidney-disease-classification deep learning project
+
+# STEP 1: Create a template.py file first to create folder struture after cloning the repository
+
+# STEP 2: After setting up setup.py create an virtual environment
+
+# STEP 3: Create a virtual environment & activate. Later set setup.py file with requirement.txt
+
+# STEP 4: Setup Logging module & exception handling (In __init__ to automatically trigger it)
+
+# STEP 5: Import it into main.py
+
+# STEP 6: Using python Box package we will do the exception handling inside utils folder
