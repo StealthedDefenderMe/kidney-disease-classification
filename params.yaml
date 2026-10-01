@@ -1,1 +1,10 @@
-key: value
+# These are experiment/model parameters, so they shouldn't be hardcoded inside Python.
+AUGMENTATION: True
+IMAGE_SIZE: [224, 224, 3]
+BATCH_SIZE: 16 #Smaller batch because I'm training the model locally
+INCLUDE_TOP: False #Because i don't want to include top layer (Dense) of base model to my model
+EPOCHS: 1 #Increase as per you convinience. 200 to to check your model performance
+CLASSES: 4 #Four classes because I have four categories in my dataset
+WEIGHTS: imagenet #Here we're getting the pretrained model with pretrained weights
+LEARNING_RATE: 0.001 #We need this at the time of defining the optimizer
+DENSE_UNITS: 128

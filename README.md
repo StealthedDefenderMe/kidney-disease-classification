@@ -26,3 +26,85 @@
 10. app.py (Updating at very last)
 
 ## Here we're starting with our first component which is data injection. Here we'll inject the data
+
+## Now the next step is to download pretrained model
+
+# Pretrained CNN
+#     ↓
+# CNN feature extraction layers  ← KEEP
+#     ↓
+# GlobalAveragePooling2D
+#     ↓
+# Your Dense/ANN layers          ← ADD
+#     ↓
+# 4 output classes
+
+# Pretrained CNN → the complete already-trained image model.
+# Feature extraction layers → inside that model, different filters/neurons learn different visual patterns such as edges, textures, shapes, and more complex features.
+
+<!-- 
+1. Pretrained CNN
+
+A CNN (Convolutional Neural Network) is a model designed to understand images.
+Pretrained means someone has already trained it on a huge image dataset like ImageNet.
+So instead of starting from zero:
+Random CNN ❌
+     ↓
+Learn everything from scratch
+we start with:
+Already-trained CNN ✅
+     ↓
+Already knows many visual patterns
+
+2. CNN Feature Extraction Layers
+Inside the CNN are many layers that progressively learn visual features:
+Early layers
+→ edges, lines
+
+Middle layers
+→ shapes, textures
+
+Deeper layers
+→ complex patterns / structures
+
+For example, the CNN might learn:
+Pixels
+ ↓
+Edges
+ ↓
+Shapes
+ ↓
+Textures
+ ↓
+Complex image patterns
+# We keep these layers because they are useful for understanding your kidney CT images.
+
+Then we put our own classification layers on top to decide:
+Features
+   ↓
+Normal / Cyst / Tumor / Stone
+That's why the pretrained CNN is called the feature extractor.
+
+3. GlobalAveragePooling2D
+The CNN produces lots of feature maps. This layer summarizes each feature map into a single number.
+Think:
+CNN feature maps
+      ↓
+GlobalAveragePooling2D
+      ↓
+One compact list of numbers
+
+It converts the CNN's complex visual information into something the Dense layers can easily use.
+
+4. Your Dense / ANN layers
+Now your own layers take those extracted features and learn how to classify them.
+Features
+   ↓
+Dense layer
+   ↓
+Dense layer
+   ↓
+4 outputs
+
+The 4 outputs represent: Normal, Cyst, Tumor, Stone
+ -->
