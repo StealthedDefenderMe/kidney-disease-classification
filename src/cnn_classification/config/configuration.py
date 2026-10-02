@@ -1,6 +1,6 @@
 from src.cnn_classification.constants import CONFIG_FILE_PATH, PARAMS_FILE_PATH
 from src.cnn_classification.utils.common import read_yaml
-from src.cnn_classification.entity.config_entity import DataInjectionEntity, PrepareBaseModelEntity
+from src.cnn_classification.entity.config_entity import DataInjectionEntity, PrepareBaseModelEntity, DataTransformationEntity
 from pathlib import Path
 
 class  ConfigurationManager:
@@ -28,4 +28,19 @@ class  ConfigurationManager:
             classes=self.params.CLASSES,
             weights=self.params.WEIGHTS,
             dense_units=self.params.DENSE_UNITS
+        )
+
+    def get_data_transformation_config(self) -> DataTransformationEntity:
+        config = self.config.data_transformation
+
+        return DataTransformationEntity(
+            root_dir=Path(config.root_dir),
+            data_path=Path(config.data_path),
+            transformed_image_size=self.params.TRANSFORMED_IMAGE_SIZE,
+            batch_size=self.params.BATCH_SIZE,
+            train_split=self.params.TRAIN_SPLIT,
+            validation_split=self.params.VALIDATION_SPLIT,
+            test_split=self.params.TEST_SPLIT,
+            seed=self.params.SEED,
+            augmentation=self.params.AUGMENTATION
         )

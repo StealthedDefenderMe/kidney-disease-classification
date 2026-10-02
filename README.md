@@ -108,3 +108,26 @@ Dense layer
 
 The 4 outputs represent: Normal, Cyst, Tumor, Stone
  -->
+
+
+ <!-- Transformation.py 
+   In transformation.py, we are basically:
+
+   📂 Reading images from Normal, Cyst, Tumor, Stone folders.
+   🔄 Resizing every image to 224 × 224.
+   📦 Creating batches of 16 images.
+   ✂️ Splitting the dataset into:
+   80% → training
+   20% → validation
+   🏷️ Automatically creating labels based on the folder names.
+   🎲 Using seed so the split is reproducible.
+
+   Augmentation hasn't been added yet — we'll handle that next.
+   That's it for the current transformation stage.
+
+   # Next Stage of transformation:
+      Augmentation    → Make training images varied
+      VGG16 preprocess → Prepare images for VGG16
+      cache()          → Avoid repeatedly loading data
+      prefetch()       → Prepare next data while model trains
+ -->

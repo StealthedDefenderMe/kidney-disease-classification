@@ -8,3 +8,10 @@ CLASSES: 4 #Four classes because I have four categories in my dataset
 WEIGHTS: imagenet #Here we're getting the pretrained model with pretrained weights
 LEARNING_RATE: 0.001 #We need this at the time of defining the optimizer
 DENSE_UNITS: 128
+
+# For transformation.py
+TRAIN_SPLIT: 0.7
+VALIDATION_SPLIT: 0.15
+TEST_SPLIT: 0.15
+SEED: 123
+TRANSFORMED_IMAGE_SIZE: [224, 224]
