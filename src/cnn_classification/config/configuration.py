@@ -1,6 +1,6 @@
 from src.cnn_classification.constants import CONFIG_FILE_PATH, PARAMS_FILE_PATH
 from src.cnn_classification.utils.common import read_yaml
-from src.cnn_classification.entity.config_entity import DataInjectionEntity, PrepareBaseModelEntity, DataTransformationEntity
+from src.cnn_classification.entity.config_entity import DataInjectionEntity, PrepareBaseModelEntity, DataTransformationEntity, TrainingEntity
 from pathlib import Path
 
 class  ConfigurationManager:
@@ -43,4 +43,15 @@ class  ConfigurationManager:
             test_split=self.params.TEST_SPLIT,
             seed=self.params.SEED,
             augmentation=self.params.AUGMENTATION
+        )
+
+    def get_training_config(self) -> TrainingEntity:
+        config = self.config.training
+
+        return TrainingEntity(
+            root_dir=Path(config.root_dir),
+            trained_model_path=Path(config.trained_model_path),
+            updated_base_model_path=Path(self.config.prepare_base_model.updated_base_model_path),
+            epochs=self.params.EPOCHS,
+            image_size=self.params.IMAGE_SIZE
         )

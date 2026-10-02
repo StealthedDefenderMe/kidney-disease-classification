@@ -31,3 +31,13 @@ class DataTransformationEntity:
     test_split: float
     seed: int
     augmentation: bool
+
+# You don't need: training_data, batch_size, augmentation because it directly comes from transformation.py
+# So training will basically receive: train_dataset, validation_dataset & do model.fit()
+@dataclass
+class TrainingEntity:
+    root_dir: Path
+    trained_model_path: Path
+    updated_base_model_path: Path
+    epochs: int
+    image_size: list

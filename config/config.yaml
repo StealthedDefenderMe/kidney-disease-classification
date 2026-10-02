@@ -7,9 +7,11 @@
 
 artifacts_root : artifacts
 
+
 data_injection:
   source_url: "nazmul0087/ct-kidney-dataset-normal-cyst-tumor-and-stone"
   root_dir: "artifacts/data"
+
 
 prepare_base_model:
   root_dir: artifacts/prepare_base_model
@@ -18,6 +20,12 @@ prepare_base_model:
   # .h5 is just a file format for saving a Keras model. It can also stored things like: Model Architecture, Learned weights, Training Config
   # .h5 isn't mandatory. Modern Keras also supports the .keras format, which is generally preferred for new Keras projects.
 
+
 data_transformation:
   root_dir: artifacts/data_transformation
   data_path: artifacts/data/CT-KIDNEY-DATASET-Normal-Cyst-Tumor-Stone/CT-KIDNEY-DATASET-Normal-Cyst-Tumor-Stone # points to the dataset we already downloaded.
+
+
+training:
+  root_dir: artifacts/training
+  trained_model_path: artifacts/training/trained_model.keras
