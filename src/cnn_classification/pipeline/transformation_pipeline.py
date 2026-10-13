@@ -10,4 +10,4 @@ class DataTransformationPipeline:
         data_transformation_config = config_manager.get_data_transformation_config()
 
         data_transformation = DataTransformation(config=data_transformation_config)
-        data_transformation.initiate_data_transformation()
+        return data_transformation.initiate_data_transformation()
