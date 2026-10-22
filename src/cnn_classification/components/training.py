@@ -24,9 +24,23 @@ class Training:
         # Loss — measures how wrong the predictions are. Your integer labels make sparse_categorical_crossentropy appropriate.
         # Accuracy — measures the percentage of correct predictions.
         model.compile(
-            optimizer="adam",
+            optimizer=tf.keras.optimizers.Adam(learning_rate=1e-5),
             loss="sparse_categorical_crossentropy",
             metrics=["accuracy"]
+        )
+
+        # Here going to add model checkpoint
+        # It automatically saves the best fit model whenever it achieves a new best validation loss during training
+                # Create training directory before saving checkpoints
+        create_directories([self.config.root_dir])
+
+        # Save the model whenever validation loss improves
+        checkpoint = tf.keras.callbacks.ModelCheckpoint(
+            filepath=str(self.config.root_dir / "best_model.h5"),
+            monitor="val_loss",
+            save_best_only=True,
+            mode="min",
+            verbose=1
         )
 
 
@@ -38,11 +52,12 @@ class Training:
         model.fit(
             train_dataset,
             validation_data=validation_dataset,
-            epochs=self.config.epochs
+            epochs=self.config.epochs,
+            callbacks=[checkpoint]
         )
 
         # Create training directory if it doesn't exist
-        create_directories([self.config.root_dir])
+        # create_directories([self.config.root_dir])
 
         # Saving the trained model
         # Saves the model after training so you can load it later without training again.

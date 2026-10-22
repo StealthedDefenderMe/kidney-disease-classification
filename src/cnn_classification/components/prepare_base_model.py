@@ -14,7 +14,9 @@ class PrepareBaseModel:
 
         # VGG16 → pretrained CNN
         # weights="imagenet" → use already learned weights
-        # include_top=False → remove VGG16's original 1000-class classifier
+        # include_top=True → Keeps the original 1,000-class classifier, which isn't designed for our 4 kidney classes.
+        # include_top=False → remove VGG16's original 1000-class classifier. Removes that classifier and 
+        # keeps the useful convolutional feature-extraction layers.
         # input_shape=(224, 224, 3) → our images will be 224×224 RGB
         # VGG16
         # ↓
@@ -50,7 +52,15 @@ class PrepareBaseModel:
         logger.info("Updating base model...")
 
         # Freezing VGG16 before training, so that we can reuse useful image features from ImageNet & only teach new layers
-        self.model.trainable = False
+        # self.model.trainable = False
+        # Enabling the trainable parameters
+        # Freeze all VGG16 layers
+        for layer in self.model.layers:
+            layer.trainable = False
+
+        # Unfreeze the last 4 VGG16 layers
+        for layer in self.model.layers[-4:]:
+            layer.trainable = True
 
         self.model = tf.keras.Sequential([
             self.model,

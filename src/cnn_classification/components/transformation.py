@@ -48,7 +48,15 @@ class DataTransformation:
             seed=self.config.seed # seed is configurable. It is not a fixed number. It controls how the dataset is randomly split/shuffled.
         )
 
+        self.config.root_dir.mkdir(parents=True, exist_ok=True)
+
+        # Cache original resized training images on disk
+        # train_dataset = train_dataset.cache(
+        #     str(self.config.root_dir / "train_cache_v1")
+        # )
+
         # Data augmentation
+        # Applying augmnetation after caching
         # It says: Don't always show the training images exactly the same way."
         if self.config.augmentation:
             data_augmentation = tf.keras.Sequential([
@@ -68,6 +76,7 @@ class DataTransformation:
 
 
         # VGG16 preprocessing
+        # Apply VGG16 preprocessing to training images
         # Here we're doing VGG16-specific preprocessing to both datasets.
         train_dataset = train_dataset.map(
             lambda x, y: (
@@ -89,6 +98,12 @@ class DataTransformation:
         # Because VGG16 must receive both training and validation images in the same expected format.
 
         # Performance optimization
+
+        # Cache validation data on disk
+        validation_dataset = validation_dataset.cache(
+            str(self.config.root_dir / "validation_cache_v1")
+        )
+
         # This is simply making the dataset faster for training.
         # cache() means: After loading/preparing the data once, keep it in memory so we don't repeatedly read and process it from disk.
         # Without cache:
@@ -101,7 +116,7 @@ class DataTransformation:
                               # Model
                               # Model
                               # Model
-        train_dataset = train_dataset.cache().prefetch(
+        train_dataset = train_dataset.prefetch(
             buffer_size=tf.data.AUTOTUNE
         )
 
@@ -122,7 +137,7 @@ class DataTransformation:
         # Figure out how many batches should be prepared ahead of time so the pipeline runs efficiently.
         # AUTOTUNE = TensorFlow automatically tunes the value for you.
 
-        validation_dataset = validation_dataset.cache().prefetch(
+        validation_dataset = validation_dataset.prefetch(
             buffer_size=tf.data.AUTOTUNE
         )
         # For Example: It decides how many batches TensorFlow should prepare ahead of time.
