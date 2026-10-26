@@ -11,7 +11,7 @@ class TrainingPipeline:
         config_manager = ConfigurationManager()
 
         # Getting the transformed data set from transformation_pipeline.py
-        train_dataset, validation_dataset = DataTransformationPipeline().main()
+        train_dataset, validation_dataset, test_dataset = DataTransformationPipeline().main()
 
         # Getting the training configuration
         training_config = config_manager.get_training_config()
@@ -20,4 +20,4 @@ class TrainingPipeline:
         data_training = Training(config=training_config)
 
         # Start model training
-        data_training.initiate_training(train_dataset=train_dataset, validation_dataset=validation_dataset)
+        data_training.initiate_training(train_dataset=train_dataset, validation_dataset=validation_dataset, test_dataset=test_dataset)
