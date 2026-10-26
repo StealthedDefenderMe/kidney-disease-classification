@@ -29,3 +29,7 @@ data_transformation:
 training:
   root_dir: artifacts/training
   trained_model_path: artifacts/training/trained_model.keras
+
+
+prediction:
+  model_path: artifacts/training/best_model.h5

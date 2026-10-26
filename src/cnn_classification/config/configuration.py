@@ -1,6 +1,6 @@
 from src.cnn_classification.constants import CONFIG_FILE_PATH, PARAMS_FILE_PATH
 from src.cnn_classification.utils.common import read_yaml
-from src.cnn_classification.entity.config_entity import DataInjectionEntity, PrepareBaseModelEntity, DataTransformationEntity, TrainingEntity
+from src.cnn_classification.entity.config_entity import DataInjectionEntity, PrepareBaseModelEntity, DataTransformationEntity, TrainingEntity, PredictionEntity
 from pathlib import Path
 
 class  ConfigurationManager:
@@ -54,4 +54,13 @@ class  ConfigurationManager:
             updated_base_model_path=Path(self.config.prepare_base_model.updated_base_model_path),
             epochs=self.params.EPOCHS,
             image_size=self.params.IMAGE_SIZE
+        )
+
+    def get_prediction_config(self) -> PredictionEntity:
+        config = self.config.prediction
+
+        return PredictionEntity(
+            model_path=Path(config.model_path),
+            class_names=self.params.CLASS_NAMES,
+            image_size=self.params.PREDICTION_IMAGE_SIZE
         )

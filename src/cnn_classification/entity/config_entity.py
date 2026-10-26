@@ -41,3 +41,10 @@ class TrainingEntity:
     updated_base_model_path: Path
     epochs: int
     image_size: list
+
+
+@dataclass(frozen=True)
+class PredictionEntity:
+    model_path: Path
+    class_names: list
+    image_size: tuple
