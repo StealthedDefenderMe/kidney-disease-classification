@@ -25,6 +25,10 @@ class Prediction:
 
         predictions = self.model.predict(image_array, verbose=0)
 
+        print("Class names:", self.class_names)
+        print("Raw probabilities:", predictions[0])
+        print("Probability sum:", np.sum(predictions[0]))
+
         predicted_index = np.argmax(predictions[0])
         predicted_class = self.class_names[predicted_index]
         confidence = float(predictions[0][predicted_index]) * 100

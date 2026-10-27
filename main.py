@@ -25,7 +25,7 @@ try:
     # training_pipeline = TrainingPipeline()
     # training_pipeline.main()
 
-    image_path = sys.argv[1]
+    image_path = "artifacts/data/CT-KIDNEY-DATASET-Normal-Cyst-Tumor-Stone/CT-KIDNEY-DATASET-Normal-Cyst-Tumor-Stone/Tumor/Tumor- (403).jpg"
 
     prediction_pipeline = PredictionPipeline()
     result = prediction_pipeline.predict(image_path)

@@ -33,6 +33,8 @@ class DataTransformation:
             [folder.name for folder in Path(data_path).iterdir() if folder.is_dir()]
         )
 
+        # print("Training class order:", class_names)
+
         image_paths = []
         labels = []
 
