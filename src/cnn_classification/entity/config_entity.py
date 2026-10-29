@@ -39,8 +39,12 @@ class TrainingEntity:
     root_dir: Path
     trained_model_path: Path
     updated_base_model_path: Path
+    evaluation_dir: Path
+    misclassified_images_dir: Path
+    misclassified_predictions_path: Path
     epochs: int
     image_size: list
+    class_names: list
 
 
 @dataclass(frozen=True)

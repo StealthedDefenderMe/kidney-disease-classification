@@ -52,8 +52,12 @@ class  ConfigurationManager:
             root_dir=Path(config.root_dir),
             trained_model_path=Path(config.trained_model_path),
             updated_base_model_path=Path(self.config.prepare_base_model.updated_base_model_path),
+            evaluation_dir=Path(config.evaluation_dir),
+            misclassified_images_dir=Path(config.misclassified_images_dir),
+            misclassified_predictions_path=Path(config.misclassified_predictions_path),
             epochs=self.params.EPOCHS,
-            image_size=self.params.IMAGE_SIZE
+            image_size=self.params.IMAGE_SIZE,
+            class_names=self.params.CLASS_NAMES,
         )
 
     def get_prediction_config(self) -> PredictionEntity:

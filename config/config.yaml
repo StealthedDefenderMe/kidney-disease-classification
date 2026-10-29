@@ -29,6 +29,9 @@ data_transformation:
 training:
   root_dir: artifacts/training
   trained_model_path: artifacts/training/trained_model.keras
+  evaluation_dir: artifacts/evaluation
+  misclassified_images_dir: artifacts/evaluation/misclassified_images
+  misclassified_predictions_path: artifacts/evaluation/misclassified_predictions.csv
 
 
 prediction:

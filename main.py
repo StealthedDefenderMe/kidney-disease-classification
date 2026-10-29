@@ -3,8 +3,8 @@ import sys
 # from src.cnn_classification.pipeline.injection_pipeline import DataInjectionPipeline
 # from src.cnn_classification.pipeline.prepare_base_model_pipeline import PrepareBaseModelPipeline
 # from src.cnn_classification.pipeline.transformation_pipeline import DataTransformationPipeline
-# from src.cnn_classification.pipeline.training_pipeline import TrainingPipeline
-from src.cnn_classification.pipeline.prediction_pipeline import PredictionPipeline
+from src.cnn_classification.pipeline.training_pipeline import TrainingPipeline
+# from src.cnn_classification.pipeline.prediction_pipeline import PredictionPipeline
 
 logger.info("Starting the application...")
 
@@ -22,16 +22,16 @@ try:
     # data_transformation_pipeline.main()
 
     # Training pipeline
-    # training_pipeline = TrainingPipeline()
-    # training_pipeline.main()
+    training_pipeline = TrainingPipeline()
+    training_pipeline.main()
 
-    image_path = "artifacts/data/CT-KIDNEY-DATASET-Normal-Cyst-Tumor-Stone/CT-KIDNEY-DATASET-Normal-Cyst-Tumor-Stone/Tumor/Tumor- (403).jpg"
+    # image_path = "artifacts/data/CT-KIDNEY-DATASET-Normal-Cyst-Tumor-Stone/CT-KIDNEY-DATASET-Normal-Cyst-Tumor-Stone/Tumor/Tumor- (403).jpg"
 
-    prediction_pipeline = PredictionPipeline()
-    result = prediction_pipeline.predict(image_path)
-    print(result)
+    # prediction_pipeline = PredictionPipeline()
+    # result = prediction_pipeline.predict(image_path)
+    # print(result)
 
-    logger.info("Application finished running")
+    # logger.info("Application finished running")
 
 except Exception as e:
     logger.exception(e)
