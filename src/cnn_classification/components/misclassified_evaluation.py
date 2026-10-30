@@ -26,7 +26,8 @@ def save_misclassified_images(
     class_names,
     evaluation_dir,
     misclassified_images_dir,
-    misclassified_predictions_path
+    misclassified_predictions_path,
+    all_predictions_path
 ):
     # Create evaluation directories
     create_directories([
@@ -78,3 +79,25 @@ def save_misclassified_images(
             "confidence"
         ]
     ).to_csv(report_path, index=False)
+
+    # Generating csv report for all predictions
+    all_results = []
+
+    for index in range(len(y_true)):
+        image_path = Path(test_image_paths[index])
+
+        actual_class = class_names[y_true[index]]
+        predicted_class = class_names[y_pred[index]]
+
+        all_results.append({
+            "image_name": image_path.name,
+            "actual_class": actual_class,
+            "predicted_class": predicted_class,
+            "confidence": round(float(confidence[index]), 2),
+            "correct": bool(y_true[index] == y_pred[index])
+        })
+
+    pd.DataFrame(all_results).to_csv(
+        all_predictions_path,
+        index=False
+    )

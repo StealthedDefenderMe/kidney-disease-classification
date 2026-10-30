@@ -55,6 +55,7 @@ class  ConfigurationManager:
             evaluation_dir=Path(config.evaluation_dir),
             misclassified_images_dir=Path(config.misclassified_images_dir),
             misclassified_predictions_path=Path(config.misclassified_predictions_path),
+            all_predictions_path=Path(config.all_predictions_path),
             epochs=self.params.EPOCHS,
             image_size=self.params.IMAGE_SIZE,
             class_names=self.params.CLASS_NAMES,

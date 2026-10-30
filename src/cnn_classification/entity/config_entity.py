@@ -42,6 +42,7 @@ class TrainingEntity:
     evaluation_dir: Path
     misclassified_images_dir: Path
     misclassified_predictions_path: Path
+    all_predictions_path: Path
     epochs: int
     image_size: list
     class_names: list

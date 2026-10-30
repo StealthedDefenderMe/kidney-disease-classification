@@ -106,6 +106,7 @@ class Training:
             evaluation_dir=self.config.evaluation_dir,
             misclassified_images_dir=self.config.misclassified_images_dir,
             misclassified_predictions_path=self.config.misclassified_predictions_path,
+            all_predictions_path=self.config.all_predictions_path
         )
 
         # Generate confusion matrix

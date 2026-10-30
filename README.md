@@ -218,3 +218,29 @@ We'll create a separate Python script, such as research/grad_cam.py, and load yo
 One important detail: Grad-CAM helps explain the model's behavior; it cannot prove that the highlighted region is medically correct.
 
 We'll start with one Tumor → Cyst misclassified image and inspect its heatmap before analyzing more images.
+
+<!-- More points on GRAD-CAM just to make you understand better -->
+Imagine you ask your friend to look at a kidney CT image and answer: “Is this a cyst or a tumor?”
+Your model says “Cyst — 99.56% confidence.” But the actual label is Tumor.
+Now you want to know: Why did the model think it was a cyst?
+That's what Grad-CAM helps you investigate.
+
+1. Give the model an image
+Your kidney CT image goes into the trained VGG16 model.
+
+2. Ask which areas mattered
+Grad-CAM creates a colored heatmap showing areas that influenced the model's chosen class. Red or yellow often means stronger influence.
+
+3. Look at the result
+We can inspect whether the model focused on the suspicious region or on something irrelevant, like surrounding tissue or image artifacts.
+
+Remember this simple difference
+- CNN model: “I predict this is a cyst.”
+- Grad-CAM: “These image regions contributed most to my cyst prediction.”
+Grad-CAM doesn't prove the model is correct or explain its reasoning perfectly. It helps us investigate its behavior.
+
+VGG16 convolutional layers extract image features. Grad-CAM highlights which regions influenced the prediction.
+Dense layers use those features to produce probabilities for the 4 classes: Cyst, Normal, Stone, and Tumor.
+We compare both: the predicted class and confidence (Cyst, 99.56%) against the Grad-CAM heatmap to understand what image regions influenced that prediction.
+
+In simple terms: Grad-CAM finds which convolutional features increased the Cyst score, combines their spatial information, and produces a heatmap showing the influential regions.

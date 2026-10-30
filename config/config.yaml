@@ -32,6 +32,7 @@ training:
   evaluation_dir: artifacts/evaluation
   misclassified_images_dir: artifacts/evaluation/misclassified_images
   misclassified_predictions_path: artifacts/evaluation/misclassified_predictions.csv
+  all_predictions_path: artifacts/evaluation/all_predictions.csv
 
 
 prediction:

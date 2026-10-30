@@ -5,6 +5,7 @@ mlflow==2.2.2
 notebook
 numpy
 matplotlib
+opencv-python
 seaborn
 python-box==6.0.2
 pyYAML # To read yaml files & load it in my code
