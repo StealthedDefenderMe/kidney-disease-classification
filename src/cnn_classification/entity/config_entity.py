@@ -53,3 +53,16 @@ class PredictionEntity:
     model_path: Path
     class_names: list
     image_size: tuple
+
+@dataclass
+class DataSplitterEntity:
+    class_names: list
+    root_dir: Path
+    source_data_path: Path
+    images_dir: Path
+    labels_dir: Path
+    manifest_path: Path
+    train_split: float
+    validation_split: float
+    test_split: float
+    seed: int

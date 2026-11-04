@@ -37,3 +37,11 @@ training:
 
 prediction:
   model_path: artifacts/training/best_model.h5
+
+
+data_splitter:
+  root_dir: artifacts/kidney_object_detection
+  source_data_path: artifacts/data/CT-KIDNEY-DATASET-Normal-Cyst-Tumor-Stone/CT-KIDNEY-DATASET-Normal-Cyst-Tumor-Stone
+  images_dir: artifacts/kidney_object_detection/images
+  labels_dir: artifacts/kidney_object_detection/labels
+  manifest_path: artifacts/kidney_object_detection/split_manifest.csv

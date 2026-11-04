@@ -1,7 +1,9 @@
+from pathlib import Path
 from src.cnn_classification.constants import CONFIG_FILE_PATH, PARAMS_FILE_PATH
 from src.cnn_classification.utils.common import read_yaml
-from src.cnn_classification.entity.config_entity import DataInjectionEntity, PrepareBaseModelEntity, DataTransformationEntity, TrainingEntity, PredictionEntity
-from pathlib import Path
+from src.cnn_classification.entity.config_entity import ( DataInjectionEntity, PrepareBaseModelEntity, 
+                                                         DataTransformationEntity, TrainingEntity, 
+                                                         PredictionEntity, DataSplitterEntity )
 
 class  ConfigurationManager:
     def __init__(self):
@@ -68,4 +70,20 @@ class  ConfigurationManager:
             model_path=Path(config.model_path),
             class_names=self.params.CLASS_NAMES,
             image_size=self.params.PREDICTION_IMAGE_SIZE
+        )
+
+    def get_data_splitter_config(self) -> DataSplitterEntity:
+        config = self.config.data_splitter
+
+        return DataSplitterEntity(
+            class_names=self.params.YOLO_CLASS_NAMES,
+            root_dir=Path(config.root_dir),
+            source_data_path=Path(config.source_data_path),
+            images_dir=Path(config.images_dir),
+            labels_dir=Path(config.labels_dir),
+            manifest_path=Path(config.manifest_path),
+            train_split=self.params.YOLO_TRAIN_SPLIT,
+            validation_split=self.params.YOLO_VALIDATION_SPLIT,
+            test_split=self.params.YOLO_TEST_SPLIT,
+            seed=self.params.YOLO_SPLIT_SEED
         )

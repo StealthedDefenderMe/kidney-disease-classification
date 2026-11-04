@@ -19,3 +19,10 @@ TRANSFORMED_IMAGE_SIZE: [224, 224]
 # For Prediction.py
 CLASS_NAMES: ["Cyst", "Normal", "Stone", "Tumor"]
 PREDICTION_IMAGE_SIZE: [224, 224]
+
+# For object detection dataset splitting
+YOLO_CLASS_NAMES: ["Cyst", "Normal", "Stone", "Tumor"]
+YOLO_TRAIN_SPLIT: 0.70
+YOLO_VALIDATION_SPLIT: 0.15
+YOLO_TEST_SPLIT: 0.15
+YOLO_SPLIT_SEED: 123
