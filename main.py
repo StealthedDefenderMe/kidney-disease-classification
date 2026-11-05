@@ -3,9 +3,8 @@ from src.cnn_classification import logger
 # from src.cnn_classification.pipeline.prepare_base_model_pipeline import PrepareBaseModelPipeline
 # from src.cnn_classification.pipeline.transformation_pipeline import DataTransformationPipeline
 # from src.cnn_classification.pipeline.training_pipeline import TrainingPipeline
-# from src.cnn_classification.pipeline.evaluation_pipeline import EvaluationPipeline
+from src.cnn_classification.pipeline.evaluation_pipeline import EvaluationPipeline
 # from src.cnn_classification.pipeline.prediction_pipeline import PredictionPipeline
-from src.cnn_classification.pipeline.data_splitter_od_pipeline import DataSplitterODPipeline
 
 logger.info("Starting the application...")
 
@@ -27,20 +26,14 @@ try:
     # training_pipeline.main()
 
     # Evaluation Pipeline
-    # evaluation_pipeline = EvaluationPipeline()
-    # evaluation_pipeline.main()
+    evaluation_pipeline = EvaluationPipeline()
+    evaluation_pipeline.main()
 
     # image_path = "artifacts/data/CT-KIDNEY-DATASET-Normal-Cyst-Tumor-Stone/CT-KIDNEY-DATASET-Normal-Cyst-Tumor-Stone/Tumor/Tumor- (403).jpg"
 
     # prediction_pipeline = PredictionPipeline()
     # result = prediction_pipeline.predict(image_path)
     # print(result)
-
-    # ========= Object Detection Execution =========
-    
-    # Data spillter pipeline
-    data_split_pipeline_od = DataSplitterODPipeline()
-    data_split_pipeline_od.main()
 
     logger.info("Application finished running")
 
