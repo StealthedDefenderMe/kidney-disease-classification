@@ -66,3 +66,7 @@ class DataSplitterEntity:
     validation_split: float
     test_split: float
     seed: int
+
+@dataclass
+class TrainInputEntity:
+    pending_dir: Path

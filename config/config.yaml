@@ -36,4 +36,7 @@ training:
 
 
 prediction:
-  model_path: artifacts/training/best_model.h5
+  model_path: artifacts/training/best_model_v2.h5
+
+train_input:
+  pending_dir: artifacts/collected_images/pending
