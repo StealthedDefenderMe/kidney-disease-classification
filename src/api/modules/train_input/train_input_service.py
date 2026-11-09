@@ -1,5 +1,6 @@
 from pathlib import Path
 from uuid import uuid4
+import shutil
 from fastapi import UploadFile, HTTPException
 from src.cnn_classification.config.configuration import ConfigurationManager
 from src.cnn_classification.pipeline.prediction_pipeline import PredictionPipeline
@@ -45,10 +46,30 @@ class TrainInputServiceClass:
             pipeline = PredictionPipeline()
             prediction = pipeline.predict(str(image_path))
 
+            # Gets prediction class and confidence
+            predicted_class = prediction["predicted_class"]
+            confidence = prediction["confidence"]
+
+            # checks if the prediction meets our configured threashold
+            if confidence >= self.config.confidence_threshold :
+
+                # Creates a separate directory for predicted class
+                class_dir = Path(self.config.pseudo_labeled_dir) / predicted_class
+                class_dir.mkdir(parents=True, exist_ok=True)
+
+                # moves image from pending to pseudo-labeled folder
+                destination = class_dir / image_path.name
+                shutil.move(str(image_path), str(destination))
+
+                status = "pseudo_labeled"
+
+            else:
+                status = "pending"
+
             return {
                 "message": "Image collected successfully",
                 "image_id": image_path.stem,
-                "status": "pending",
+                "status": status,
                 "prediction": prediction
             }
 

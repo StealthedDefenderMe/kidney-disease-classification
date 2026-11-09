@@ -38,5 +38,33 @@ training:
 prediction:
   model_path: artifacts/training/best_model_v2.h5
 
+
 train_input:
   pending_dir: artifacts/collected_images/pending
+  pseudo_labeled_dir: artifacts/collected_images/pseudo_labeled
+  confidence_threshold: 95.0
+
+
+incremental_training:
+  existing_model_path: artifacts/training/best_model_v2.h5
+  candidate_model_dir: artifacts/training/incremental
+  learning_rate: 0.00001
+  epochs: 5
+  patience: 2
+
+incremental_data_transformation:
+  root_dir: artifacts/data_transformation
+  data_path: artifacts/data/CT-KIDNEY-DATASET-Normal-Cyst-Tumor-Stone/CT-KIDNEY-DATASET-Normal-Cyst-Tumor-Stone
+  pseudo_labeled_dir: artifacts/collected_images/pseudo_labeled
+  batch_size: 16
+  transformed_image_size: [224, 224, 3]
+  augmentation: true
+
+candidate_evaluation:
+  existing_model_path: artifacts/training/best_model_v2.h5
+  candidate_model_path: artifacts/training/incremental/candidate_model.h5
+
+model_promotion:
+  active_model_path: artifacts/training/best_model_v2.h5
+  candidate_model_path: artifacts/training/incremental/candidate_model.h5
+  backup_model_path: artifacts/training/backup/best_model_v2_backup.h5

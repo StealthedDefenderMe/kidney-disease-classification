@@ -70,3 +70,37 @@ class DataSplitterEntity:
 @dataclass
 class TrainInputEntity:
     pending_dir: Path
+    pseudo_labeled_dir: Path
+    confidence_threshold: float
+
+@dataclass
+class IncrementalTrainingEntity:
+    existing_model_path: Path
+    candidate_model_dir: Path
+    learning_rate: float
+    epochs: int
+    patience: int
+    min_new_images: int
+
+@dataclass
+class IncrementalDataTransformationEntity:
+    root_dir: Path
+    data_path: Path
+    pseudo_labeled_dir: Path
+    batch_size: int
+    transformed_image_size: tuple
+    augmentation: bool
+    class_names: list
+    min_new_images: int
+
+@dataclass
+class CandidateEvaluationEntity:
+    existing_model_path: Path
+    candidate_model_path: Path
+    class_names: list
+
+@dataclass
+class ModelPromotionEntity:
+    active_model_path: Path
+    candidate_model_path: Path
+    backup_model_path: Path

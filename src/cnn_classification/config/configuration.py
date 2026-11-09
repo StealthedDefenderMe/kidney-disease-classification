@@ -1,7 +1,7 @@
 from pathlib import Path
 from src.cnn_classification.constants import CONFIG_FILE_PATH, PARAMS_FILE_PATH
 from src.cnn_classification.utils.common import read_yaml
-from src.cnn_classification.entity.config_entity import ( DataInjectionEntity, PrepareBaseModelEntity, 
+from src.cnn_classification.entity.config_entity import ( CandidateEvaluationEntity, DataInjectionEntity, IncrementalDataTransformationEntity, IncrementalTrainingEntity, ModelPromotionEntity, PrepareBaseModelEntity, 
                                                          DataTransformationEntity, TrainInputEntity, TrainingEntity, 
                                                          PredictionEntity, DataSplitterEntity )
 
@@ -92,5 +92,54 @@ class  ConfigurationManager:
         config = self.config.train_input
 
         return TrainInputEntity(
-            pending_dir=config.pending_dir
+            pending_dir=config.pending_dir,
+            pseudo_labeled_dir=config.pseudo_labeled_dir,
+            confidence_threshold=config.confidence_threshold
+        )
+
+    def get_incremental_training_config(self) -> IncrementalTrainingEntity:
+        config = self.config.incremental_training
+
+        return IncrementalTrainingEntity(
+            existing_model_path=Path(config.existing_model_path),
+            candidate_model_dir=Path(config.candidate_model_dir),
+            learning_rate=config.learning_rate,
+            epochs=config.epochs,
+            patience=config.patience,
+            min_new_images=self.params.MIN_NEW_IMAGES
+        )
+
+    # Returns configuration for incremental data transformation
+    def get_incremental_data_transformation_config(self) -> IncrementalDataTransformationEntity:
+
+        config = self.config.incremental_data_transformation
+
+        return IncrementalDataTransformationEntity(
+            root_dir=Path(config.root_dir),
+            data_path=Path(config.data_path),
+            pseudo_labeled_dir=Path(config.pseudo_labeled_dir),
+            batch_size=config.batch_size,
+            transformed_image_size=tuple(config.transformed_image_size),
+            augmentation=config.augmentation,
+            class_names=self.params.CLASS_NAMES,
+            min_new_images=self.params.MIN_NEW_IMAGES
+        )
+
+    def get_candidate_evaluation_config(self) -> CandidateEvaluationEntity:
+
+        config = self.config.candidate_evaluation
+
+        return CandidateEvaluationEntity(
+            existing_model_path=Path(config.existing_model_path),
+            candidate_model_path=Path(config.candidate_model_path),
+            class_names=self.params.CLASS_NAMES
+        )
+    
+    def get_model_promotion_config(self) -> ModelPromotionEntity:
+        config = self.config.model_promotion
+
+        return ModelPromotionEntity(
+            active_model_path=Path(config.active_model_path),
+            candidate_model_path=Path(config.candidate_model_path),
+            backup_model_path=Path(config.backup_model_path),
         )
