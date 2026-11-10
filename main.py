@@ -7,6 +7,7 @@ from src.cnn_classification import logger
 # from src.cnn_classification.pipeline.prediction_pipeline import PredictionPipeline
 # from src.cnn_classification.pipeline.incremental_training_pipeline import IncrementalTrainingPipeline
 from src.cnn_classification.pipeline.candidate_evaluation_pipeline import CandidateEvaluationPipeline
+from src.cnn_classification.pipeline.model_promotion_pipeline import ModelPromotionPipeline
 
 logger.info("Starting the application...")
 
@@ -43,9 +44,14 @@ try:
     # print("Candidate model created:", candidate_model_path)
 
     # Running candidate evaluation pipeline
-    evaluation_pipeline = CandidateEvaluationPipeline()
-    result = evaluation_pipeline.initiate_candidate_evaluation()
-    print(result)
+    # evaluation_pipeline = CandidateEvaluationPipeline()
+    # result = evaluation_pipeline.initiate_candidate_evaluation()
+    # print(result)
+
+    # Running Model Promotion Pipeline
+    promotion_pipeline = ModelPromotionPipeline()
+    promoted = promotion_pipeline.initiate_model_promotion()
+    print("Model Promoted: ", promoted)
 
     logger.info("Application finished running")
 
