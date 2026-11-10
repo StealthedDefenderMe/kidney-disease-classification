@@ -1,246 +1,626 @@
-# kidney-disease-classification deep learning project
+# 🩺 Kidney Disease Classification Using Deep Learning
 
-# STEP 1: Create a template.py file first to create folder struture after cloning the repository
+<p align="center">
+  <b>A Deep Learning Project using Transfer Learning and VGG16</b>
+  <br/>
+  Classifying Kidney CT Scan Images into Normal, Cyst, Tumor and Stone.
+</p>
 
-# STEP 2: After setting up setup.py create an virtual environment
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.9-blue?logo=python" />
+  <img src="https://img.shields.io/badge/TensorFlow-Keras-orange?logo=tensorflow" />
+  <img src="https://img.shields.io/badge/Model-VGG16-green" />
+  <img src="https://img.shields.io/badge/Deep%20Learning-CNN-red" />
+</p>
 
-# STEP 3: Create a virtual environment & activate. Later set setup.py file with requirement.txt
+---
 
-# STEP 4: Setup Logging module & exception handling (In __init__ to automatically trigger it)
+## 📌 Project Overview
 
-# STEP 5: Import it into main.py
+This project uses **Deep Learning and Transfer Learning** to classify kidney CT scan images into four different categories.
 
-# STEP 6: Using python Box package we will do the exception handling inside utils folder
-# inside common.py file, I'm keeping all common code i might need thrughout the application
+Instead of training a CNN from scratch, we use a pretrained CNN architecture called **VGG16**, which has already learned useful visual patterns from the ImageNet dataset.
 
-<!-- Workflows -->
-1. Update config.yaml
-2. Update secrets.yaml [Optional]
-3. Update params.yaml
-4. Update the entity (Nothing but return type of any function)
-5. Update the configuration manager in src config
-6. Update the components (Contains data injection, model preparation & evaluation)
-7. Update the pipeline (Training as well as prediction pipeline)
-8. Update the main.py
-9. Update the dvc.yaml (this is gonna track your entire pipeline)
-10. app.py (Updating at very last)
+We reuse its feature extraction layers and add our own Dense layers to classify kidney images.
 
-## Here we're starting with our first component which is data injection. Here we'll inject the data
+### 🎯 Classification Categories
 
-## Now the next step is to download pretrained model
+| Class | Description |
+|:---:|---|
+| Normal | Healthy kidney |
+| Cyst | Kidney cyst |
+| Tumor | Kidney tumor |
+| Stone | Kidney stone |
 
-# Pretrained CNN
-#     ↓
-# CNN feature extraction layers  ← KEEP
-#     ↓
-# GlobalAveragePooling2D
-#     ↓
-# Your Dense/ANN layers          ← ADD
-#     ↓
-# 4 output classes
+---
 
-# Pretrained CNN → the complete already-trained image model.
-# Feature extraction layers → inside that model, different filters/neurons learn different visual patterns such as edges, textures, shapes, and more complex features.
+## 🏗️ Project Setup
 
-<!-- 
-1. Pretrained CNN
+### Step 1: Create Project Structure
 
-A CNN (Convolutional Neural Network) is a model designed to understand images.
-Pretrained means someone has already trained it on a huge image dataset like ImageNet.
-So instead of starting from zero:
+Create a `template.py` file to automatically generate the required folder structure after cloning the repository.
+
+### Step 2: Configure Setup
+
+- Create `setup.py` to configure the project as a Python package.
+- Create a virtual environment.
+- Activate the virtual environment.
+- Add project dependencies to `requirements.txt`.
+
+### Step 3: Logging and Exception Handling
+
+- Implement a centralized logging module.
+- Configure custom exception handling.
+- Initialize these utilities inside `__init__.py` so they are automatically available when the package is imported.
+
+### Step 4: Common Utilities
+
+Create `src/cnn_classification/utils/common.py` to maintain reusable functions and common application utilities.
+
+### Step 5: Main Entry Point
+
+Import and execute the required pipelines through `main.py`.
+
+---
+
+## 🔄 Project Workflow
+
+The project follows a modular architecture consisting of configuration, entity, component and pipeline layers.
+
+| Step | File / Layer | Responsibility |
+|:---:|---|---|
+| 1 | `config.yaml` | Define project configurations and paths |
+| 2 | `secrets.yaml` | Maintain sensitive configurations (Optional) |
+| 3 | `params.yaml` | Define model hyperparameters |
+| 4 | Entity | Define configuration data structures |
+| 5 | Configuration Manager | Load configurations and create entity objects |
+| 6 | Components | Implement individual ML operations |
+| 7 | Pipelines | Connect components into workflows |
+| 8 | `main.py` | Execute the required pipelines |
+| 9 | `dvc.yaml` | Track the complete ML pipeline |
+| 10 | `app.py` | Integrate the trained model into an application |
+
+### Component Structure
+
+The components contain the actual implementation logic.
+
+- **Data Injection:** Download and store the dataset.
+- **Data Transformation:** Resize, preprocess and prepare images.
+- **Model Preparation:** Download and prepare the pretrained VGG16 model.
+- **Model Training:** Train and fine-tune the model.
+- **Model Evaluation:** Evaluate model performance.
+
+---
+
+## 📥 1. Data Injection
+
+Data injection is the first component of the machine learning pipeline.
+
+Its responsibility is to download the kidney CT scan dataset and store it in the project's artifact directory.
+
+**Dataset:** Kidney CT Scan Dataset
+
+The dataset contains four classes:
+
+- Normal
+- Cyst
+- Tumor
+- Stone
+
+---
+
+## 🧠 2. Model Preparation – Transfer Learning
+
+Instead of building a CNN from scratch, we use **VGG16**, a pretrained Convolutional Neural Network.
+
+### What is a Pretrained CNN?
+
+A CNN (Convolutional Neural Network) is a deep learning architecture designed to understand images.
+
+Pretrained means someone has already trained the model on a large image dataset like ImageNet.
+
+Instead of starting from zero:
+
+```text
 Random CNN ❌
-     ↓
+     |
+     v
 Learn everything from scratch
-we start with:
-Already-trained CNN ✅
-     ↓
+```
+
+We start with:
+
+```text
+Pretrained CNN ✅
+     |
+     v
 Already knows many visual patterns
+```
 
-2. CNN Feature Extraction Layers
-Inside the CNN are many layers that progressively learn visual features:
-Early layers
-→ edges, lines
+### Model Architecture
 
-Middle layers
-→ shapes, textures
+<p align="center">
+  <b>VGG16 + Custom Classification Layers</b>
+</p>
 
-Deeper layers
-→ complex patterns / structures
+```text
+             Kidney CT Image
+                    |
+                    v
+              Pretrained VGG16
+                    |
+                    v
+          CNN Feature Extraction Layers
+                    |
+                    v
+          GlobalAveragePooling2D
+                    |
+                    v
+               Dense (128)
+                    |
+                    v
+             Dense (4, Softmax)
+                    |
+                    v
+             Final Prediction
+                    |
+          +---------+---------+
+          |         |         |
+        Normal     Cyst      Tumor      Stone
+```
 
-For example, the CNN might learn:
-Pixels
- ↓
-Edges
- ↓
-Shapes
- ↓
-Textures
- ↓
-Complex image patterns
-# We keep these layers because they are useful for understanding your kidney CT images.
+### Understanding the Architecture
 
-Then we put our own classification layers on top to decide:
-Features
-   ↓
-Normal / Cyst / Tumor / Stone
-That's why the pretrained CNN is called the feature extractor.
+#### 1. Pretrained CNN – VGG16
 
-3. GlobalAveragePooling2D
-The CNN produces lots of feature maps. This layer summarizes each feature map into a single number.
-Think:
-CNN feature maps
-      ↓
-GlobalAveragePooling2D
-      ↓
-One compact list of numbers
+VGG16 is a CNN architecture that has already learned useful visual patterns from ImageNet.
 
-It converts the CNN's complex visual information into something the Dense layers can easily use.
+We reuse its convolutional layers instead of learning everything from scratch.
 
-4. Your Dense / ANN layers
-Now your own layers take those extracted features and learn how to classify them.
-Features
-   ↓
-Dense layer
-   ↓
-Dense layer
-   ↓
-4 outputs
+#### 2. CNN Feature Extraction Layers
 
-The 4 outputs represent: Normal, Cyst, Tumor, Stone
- -->
+Inside VGG16, different convolutional layers progressively learn different visual patterns.
 
+- **Early layers:** Edges and lines.
+- **Middle layers:** Shapes and textures.
+- **Deeper layers:** Complex patterns and structures.
 
- <!-- Transformation.py 
-   In transformation.py, we are basically:
+We keep these layers because their learned features can also help understand kidney CT images.
 
-   📂 Reading images from Normal, Cyst, Tumor, Stone folders.
-   🔄 Resizing every image to 224 × 224.
-   📦 Creating batches of 16 images.
-   ✂️ Splitting the dataset into:
-   80% → training
-   20% → validation
-   🏷️ Automatically creating labels based on the folder names.
-   🎲 Using seed so the split is reproducible.
+#### 3. GlobalAveragePooling2D (GAP)
 
-   Augmentation hasn't been added yet — we'll handle that next.
-   That's it for the current transformation stage.
+VGG16 produces 512 feature maps in our architecture.
 
-   # Next Stage of transformation:
-      Augmentation    → Make training images varied
-      VGG16 preprocess → Prepare images for VGG16
-      cache()          → Avoid repeatedly loading data
-      prefetch()       → Prepare next data while model trains
- -->
+Each feature map represents how strongly a particular learned visual pattern appears at different spatial locations.
 
+GAP calculates the average value of each feature map, converting it into one number.
 
- <!-- What is GAP (Global Average Pooling)? -->
+**Example:**
 
- <!-- VGG16 processes the image and produces 512 feature maps in your model. Each feature map represents how strongly a particular learned visual pattern appears at different spatial locations.
+Imagine one feature map contains:
 
-GAP takes each feature map and calculates its average value, producing one number per map. -->
-<!-- A simple example
-Imagine one feature map detects a particular edge pattern and contains these values:
-\[
-\begin{bmatrix}
-2 & 4\\
-6 & 8
-\end{bmatrix}
-\]
+```text
++---+---+
+| 2 | 4 |
++---+---+
+| 6 | 8 |
++---+---+
+```
 
-GAP calculates the average:
+GAP calculates its average:
+
 \[
 \frac{2+4+6+8}{4}=5
 \]
 
-So, this feature map produces the number 5.
+Therefore, this feature map produces the number `5`.
 
-GAP repeats this process for all 512 feature maps, giving your model 512 numbers. -->
+GAP repeats this operation for all 512 feature maps.
 
-<!-- This model follows this sequence:
+```text
+512 Feature Maps
+       |
+       v
+GlobalAveragePooling2D
+       |
+       v
+512 Numbers
+```
 
-Kidney image → VGG16 extracts patterns → GAP produces 512 numbers → Dense(128) learns useful combinations → Dense(4, softmax) predicts the class -->
+#### 4. Dense / ANN Layers
+
+Now we add our own classification layers.
+
+| Layer | Responsibility |
+|---|---|
+| `Dense(128, relu)` | Learns useful combinations of extracted features |
+| `Dense(4, softmax)` | Produces probabilities for the four classes |
+
+The Softmax layer produces four probabilities:
+
+- Normal
+- Cyst
+- Tumor
+- Stone
+
+The class with the highest probability becomes the model's prediction.
+
+<details>
+<summary><b>📖 Complete Model Flow – Simple Explanation</b></summary>
+
+```text
+Kidney CT Image
+      |
+      v
+     VGG16
+      |
+      v
+Extract Visual Features
+      |
+      v
+Global Average Pooling
+      |
+      v
+   512 Numbers
+      |
+      v
+   Dense (128)
+      |
+      v
+ Dense (4, Softmax)
+      |
+      v
+Normal / Cyst / Tumor / Stone
+```
+
+In simple words:
+
+1. VGG16 understands the visual patterns in the image.
+2. GAP converts those patterns into 512 numbers.
+3. Dense layers learn how to use those numbers for classification.
+4. Softmax predicts the final class.
+
+</details>
+
+---
+
+## 🖼️ 3. Data Transformation
+
+The transformation component prepares raw images before feeding them into the model.
+
+### Current Transformation Process
+
+1. Read images from the `Normal`, `Cyst`, `Tumor`, and `Stone` folders.
+2. Resize every image to `224 × 224`.
+3. Automatically generate labels based on folder names.
+4. Create batches containing 16 images.
+5. Split the dataset into:
+   - 80% → Training
+   - 20% → Validation
+6. Use a fixed random seed (`123`) to make the split reproducible.
+
+### Next Stage of Transformation
+
+The following operations help improve the training process:
+
+| Operation | Purpose |
+|---|---|
+| Data Augmentation | Introduce variations in training images |
+| VGG16 Preprocessing | Prepare images according to VGG16's expected input format |
+| Caching | Avoid repeatedly loading and processing the same images |
+| Prefetching | Prepare the next batch while the model processes the current batch |
+
+> [!NOTE]
+> Data augmentation is applied only to training images. Validation images remain unchanged.
+
+---
+
+## 🏋️ 4. Model Training
+
+Once the data transformation is complete, the training component loads the prepared VGG16 model and trains it using the training dataset.
+
+### Training Configuration
+
+| Parameter | Value |
+|---|---|
+| Base Model | VGG16 |
+| Image Size | 224 × 224 × 3 |
+| Batch Size | 16 |
+| Optimizer | Adam |
+| Loss Function | Sparse Categorical Crossentropy |
+| Metric | Accuracy |
+| Output Classes | 4 |
+
+### Fine-Tuning
+
+Initially, the pretrained VGG16 layers are frozen so that their existing learned features are preserved.
+
+Later, we unfreeze the last four layers to allow the model to fine-tune some of its learned features for kidney CT images.
+
+### Model Checkpoint
+
+We use `ModelCheckpoint` to save the best-performing model based on validation loss.
+
+This allows us to retain the best model rather than simply using the model from the final epoch.
+
+---
+
+## 📊 5. Model Evaluation
+
+Model evaluation helps us understand how well our trained model performs on unseen images.
+
+The evaluation stage focuses on:
+
+- Accuracy
+- Loss
+- Confusion Matrix
+- Classification Report
+- Precision
+- Recall
+- F1-Score
+
+The final goal is to evaluate the model on a separate test dataset that was not used during training or validation.
+
+---
+
+## 🛠️ Technologies Used
+
+| Technology | Purpose |
+|---|---|
+| Python | Core programming language |
+| TensorFlow / Keras | Deep learning framework |
+| VGG16 | Pretrained CNN architecture |
+| NumPy | Numerical operations |
+| Pandas | Data handling |
+| Scikit-learn | Data splitting and evaluation |
+| DVC | Machine learning pipeline tracking |
+| FastAPI | Prediction API |
+
+---
+
+## 🎯 Project Goal
+
+Build a modular and scalable deep learning application that can classify kidney CT scan images into four categories using transfer learning.
+
+The project also aims to support future model improvements through incremental training and integration with a prediction API.
+
+---
+
+> [!IMPORTANT]
+> This project is intended for educational and research purposes. Its predictions are not a substitute for professional medical diagnosis.
+
+---
+
+## 🧩 6. Understanding How the Model Learns
 
 Your model has two main parts:
-Layer	Purpose
-VGG16 convolutional layers	Extract features from kidney images
-Global Average Pooling	Summarizes feature maps into numbers
-Dense(128, ReLU)	Learns combinations of those features
-Dense(4, Softmax)	Predicts Cyst, Normal, Stone, or Tumor
 
-VGG16 CNN
-Extracts features from the kidney image
+### Model Architecture – Feature Extractor vs Classification Head
 
-Global Average Pooling
-Summarizes feature maps into 512 numbers
+| Layer | Purpose |
+|---|---|
+| VGG16 Convolutional Layers | Extract visual features from kidney images |
+| Global Average Pooling | Summarizes feature maps into 512 numbers |
+| Dense(128, ReLU) | Learns useful combinations of extracted features |
+| Dense(4, Softmax) | Predicts Cyst, Normal, Stone, or Tumor |
 
-Dense(128, ReLU)
-Learns useful combinations of features
+### Complete Learning Flow
 
-Dense(4, Softmax)
-Predicts Cyst, Normal, Stone, or Tumor
+```text
+         Kidney CT Image
+                |
+                v
+           VGG16 CNN
+         (Feature Extractor)
+                |
+                v
+      Global Average Pooling
+          (512 Numbers)
+                |
+                v
+          Dense (128, ReLU)
+       (Learns Feature Patterns)
+                |
+                v
+         Dense (4, Softmax)
+                |
+                v
+        Final Classification
+```
 
-One important detail: VGG16 itself contains the CNN layers, while GAP and the two Dense layers form the classification head we added.
+> [!NOTE]
+> VGG16 itself contains the CNN convolutional layers, while Global Average Pooling and the two Dense layers form the classification head we added.
 
-Imagine your model receives a kidney image whose correct label is Tumor.
-1. Prediction: The model predicts Cyst 70%, Tumor 20%, Normal 5%, Stone 5%.
-2. Calculate loss: The loss function measures how far the prediction is from the correct label, Tumor.
-3. Backpropagation: The model calculates how its trainable weights contributed to the error.
-4. Update weights: The optimizer (Adam in your project) adjusts those weights to reduce the loss.
-5. Repeat: The model processes more images and repeats this process over multiple epochs.
+### How Does the Model Learn?
 
-In your project: You froze most VGG16 layers and unfroze the last four. The new Dense layers learn, while the unfrozen VGG16 layers can also adapt their features to your kidney images.
+Imagine your model receives a kidney image whose actual label is **Tumor**.
 
-One key point: training aims to reduce errors, but improvement on training images alone doesn't guarantee better predictions on unseen images. That's why we monitor validation performance.
+The model predicts:
 
-We'll use your trained best_model.h5 and the final convolutional layer of VGG16, block5_conv3, to generate the heatmap.
+| Class | Predicted Probability |
+|---|---:|
+| Cyst | 70% |
+| Tumor | 20% |
+| Normal | 5% |
+| Stone | 5% |
 
-Important: Grad-CAM shows where the model found influential features; it does not prove that a region contains a tumor or cyst.
+The model is wrong because the actual class is Tumor, but it predicted Cyst.
 
-We'll use Grad-CAM (Gradient-weighted Class Activation Mapping) to investigate why your kidney model predicts the wrong class for some images.
-How we'll do it
+This is how the training process corrects such mistakes:
 
-1. Select a misclassified image
-For example, an image whose actual class is Tumor but prediction is Cyst.
+1. **Prediction:** The model predicts probabilities for all four classes.
+2. **Calculate Loss:** The loss function measures how far the prediction is from the correct label.
+3. **Backpropagation:** The model calculates how its trainable weights contributed to the error.
+4. **Update Weights:** The optimizer (Adam in our project) adjusts those weights to reduce the loss.
+5. **Repeat:** The model processes more images and repeats this process over multiple epochs.
 
-2. Inspect the final convolutional layer
-We'll use block5_conv3 from VGG16 because it retains spatial feature information.
+### What Happens to VGG16 During Training?
 
-3. Generate the heatmap
-Grad-CAM uses gradients of the selected class score to identify image regions that influenced that prediction.
+In our project:
 
-4. Compare the results
+- Most VGG16 layers are frozen.
+- The last four VGG16 layers are unfrozen.
+- Our newly added Dense layers are trainable.
 
-We'll compare the original image, heatmap, and overlay to see whether the model focuses on relevant regions or potentially misleading background features.
+This means the Dense layers learn to classify kidney images, while the unfrozen VGG16 layers can also adapt their learned features to our dataset.
 
-Where we'll make the changes
-We'll create a separate Python script, such as research/grad_cam.py, and load your selected best_model.h5. We won't modify or retrain your model.
+> [!IMPORTANT]
+> Training aims to reduce errors, but improvement on training images alone doesn't guarantee better predictions on unseen images. That's why we monitor validation performance.
 
-One important detail: Grad-CAM helps explain the model's behavior; it cannot prove that the highlighted region is medically correct.
+---
 
-We'll start with one Tumor → Cyst misclassified image and inspect its heatmap before analyzing more images.
+## 🔍 7. Model Explainability Using Grad-CAM
 
-<!-- More points on GRAD-CAM just to make you understand better -->
-Imagine you ask your friend to look at a kidney CT image and answer: “Is this a cyst or a tumor?”
-Your model says “Cyst — 99.56% confidence.” But the actual label is Tumor.
-Now you want to know: Why did the model think it was a cyst?
-That's what Grad-CAM helps you investigate.
+### Why Do We Need Grad-CAM?
 
-1. Give the model an image
-Your kidney CT image goes into the trained VGG16 model.
+Our model can predict whether a kidney CT image belongs to Cyst, Normal, Stone, or Tumor.
 
-2. Ask which areas mattered
-Grad-CAM creates a colored heatmap showing areas that influenced the model's chosen class. Red or yellow often means stronger influence.
+But there's another important question:
 
-3. Look at the result
-We can inspect whether the model focused on the suspicious region or on something irrelevant, like surrounding tissue or image artifacts.
+**Why did the model make that prediction?**
 
-Remember this simple difference
-- CNN model: “I predict this is a cyst.”
-- Grad-CAM: “These image regions contributed most to my cyst prediction.”
-Grad-CAM doesn't prove the model is correct or explain its reasoning perfectly. It helps us investigate its behavior.
+To investigate this, we'll use **Grad-CAM (Gradient-weighted Class Activation Mapping)**.
 
-VGG16 convolutional layers extract image features. Grad-CAM highlights which regions influenced the prediction.
-Dense layers use those features to produce probabilities for the 4 classes: Cyst, Normal, Stone, and Tumor.
-We compare both: the predicted class and confidence (Cyst, 99.56%) against the Grad-CAM heatmap to understand what image regions influenced that prediction.
+Grad-CAM generates a heatmap that highlights image regions that contributed most to a particular class prediction.
 
-In simple terms: Grad-CAM finds which convolutional features increased the Cyst score, combines their spatial information, and produces a heatmap showing the influential regions.
+### Understanding Grad-CAM with an Example
+
+Imagine you ask your friend:
+
+"Is this kidney CT image showing a cyst or a tumor?"
+
+Your model predicts:
+
+<blockquote>
+  **Predicted Class:** Cyst
+
+  **Confidence:** 99.56%
+
+  **Actual Class:** Tumor
+</blockquote>
+
+Now we want to investigate:
+
+**Why did the model think it was a cyst?**
+
+That's where Grad-CAM helps.
+
+### How Grad-CAM Works
+
+1. **Give the Model an Image**
+
+   The kidney CT image is passed through our trained VGG16 model.
+
+2. **Select the Class to Investigate**
+
+   We select the Cyst class score to investigate why the model predicted Cyst.
+
+3. **Inspect the Final Convolutional Layer**
+
+   We'll use `block5_conv3`, the final convolutional layer of VGG16, because it retains spatial feature information.
+
+4. **Generate the Heatmap**
+
+   Grad-CAM uses gradients of the selected class score to identify which spatial features influenced that prediction.
+
+5. **Compare the Results**
+
+   We'll compare:
+   - Original kidney CT image.
+   - Grad-CAM heatmap.
+   - Heatmap overlay on the original image.
+
+### Grad-CAM Visualization
+
+The following visualization illustrates how Grad-CAM helps investigate a model prediction.
+
+```text
+    Original Image
+          |
+          v
+      Trained CNN
+          |
+          v
+    Class Prediction
+       (Cyst)
+          |
+          v
+      Grad-CAM
+          |
+          v
+     Heatmap
+          |
+          v
+  Original + Heatmap
+      Overlay
+```
+
+### What Does the Heatmap Tell Us?
+
+- Red or yellow regions generally indicate stronger positive influence on the selected class score.
+- Blue regions generally indicate weaker influence.
+- The overlay helps us see where those influential regions are located in the original image.
+
+For example, we can investigate whether the model focused on the suspicious kidney region or potentially misleading background features.
+
+> [!WARNING]
+> Grad-CAM shows which image regions influenced the model's prediction. It does not prove that a highlighted region contains a tumor or cyst, nor does it establish medically correct reasoning.
+
+### Where Will We Implement Grad-CAM?
+
+We'll create a separate Python script:
+
+```text
+research/
+    |
+    └── grad_cam.py
+```
+
+We'll use:
+
+- Trained model: `artifacts/training/best_model.h5`
+- Target convolutional layer: `block5_conv3`
+- Technique: Grad-CAM
+
+We won't modify or retrain our existing model.
+
+### Our First Grad-CAM Experiment
+
+We'll start with one misclassified image:
+
+| Parameter | Value |
+|---|---|
+| Actual Class | Tumor |
+| Predicted Class | Cyst |
+| Prediction Confidence | 99.56% |
+| Target Layer | block5_conv3 |
+
+We'll generate its heatmap and inspect whether the model focused on relevant kidney regions or potentially misleading features.
+
+Once we understand the visualization, we can repeat the process for other misclassified images.
+
+### CNN vs Grad-CAM – What's the Difference?
+
+| CNN Model | Grad-CAM |
+|---|---|
+| Extracts visual features | Uses convolutional features and gradients |
+| Predicts a class | Highlights influential image regions |
+| Produces class probabilities | Produces a heatmap |
+| Answers: What does the model predict? | Helps investigate: Which regions influenced the prediction? |
+
+**In simple terms:**
+
+The CNN says:
+
+> "I predict this image is a Cyst with 99.56% confidence."
+
+Grad-CAM helps us investigate:
+
+> "These image regions contributed most to the Cyst prediction."
+
+Grad-CAM finds which convolutional features increased the selected class score, combines their spatial information, and produces a heatmap showing the influential regions.
+
+> [!NOTE]
+> Grad-CAM is an explainability technique, not a guarantee that the model's prediction or highlighted regions are correct.
+
+---
